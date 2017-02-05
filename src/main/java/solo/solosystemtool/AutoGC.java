@@ -3,7 +3,7 @@ package solo.solosystemtool;
 import cn.nukkit.Server;
 import cn.nukkit.level.Level;
 import cn.nukkit.math.NukkitMath;
-import cn.nukkit.scheduler.AsyncTask;
+import cn.nukkit.scheduler.Task;
 
 public class AutoGC extends BaseService{
 	
@@ -13,15 +13,10 @@ public class AutoGC extends BaseService{
 	
 	@Override
 	public void onStart(){
-		Server.getInstance().getScheduler().scheduleRepeatingTask(new AsyncTask(){
+		Server.getInstance().getScheduler().scheduleRepeatingTask(new Task(){
 			@Override
-			public void onRun(){
-				this.setResult(check());
-			}
-			
-			@Override
-			public void onCompletion(Server server){
-				if((boolean) this.getResult()){
+			public void onRun(int currentTick){
+				if(check()){
 					doGC();
 				}
 			}
