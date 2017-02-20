@@ -11,8 +11,6 @@ import cn.nukkit.utils.Config;
 
 public class ScheduleReboot extends BaseService{
 	
-	public Config config;
-	
 	public HashSet<Integer> dates = new HashSet<Integer>();
 	public HashSet<String> times = new HashSet<String>();
 	
@@ -20,12 +18,11 @@ public class ScheduleReboot extends BaseService{
 	
 	@SuppressWarnings({ "serial", "deprecation" })
 	public ScheduleReboot(){
-		this.config = new Config(new File(Main.getInstance().getDataFolder(), "scheduleReboot.yml"), Config.YAML, new LinkedHashMap<String, Object>(){{
+		Config config = new Config(new File(Main.getInstance().getDataFolder(), "scheduleReboot.yml"), Config.YAML, new LinkedHashMap<String, Object>(){{
 			put("reboot-date", "월,화,수,목,금,토,일");
 			put("reboot-time", "4:00,17:00");
 		}});
-		LinkedHashMap<String, Object> data = (LinkedHashMap<String, Object>) this.config.getAll();
-		for(String date : ((String) data.get("reboot-dates")).split(",")){
+		for(String date : ((String) config.getString("reboot-date")).split(",")){
 			switch(date){
 				case "월": this.dates.add(Calendar.MONDAY); break;
 				case "화": this.dates.add(Calendar.TUESDAY); break;
@@ -36,7 +33,7 @@ public class ScheduleReboot extends BaseService{
 				case "일": this.dates.add(Calendar.SUNDAY); break;
 			}
 		}
-		for(String time : ((String) data.get("reboot-times")).split(",")){
+		for(String time : ((String) config.getString("reboot-time")).split(",")){
 			this.times.add(time);
 		}
 	}

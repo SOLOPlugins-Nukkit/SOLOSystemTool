@@ -19,8 +19,8 @@ public class Main extends PluginBase{
 		instance = this;
 		this.getDataFolder().mkdirs();
 		
-		services.put(AutoGC.class.getName(), new AutoGC());
-		services.put(ScheduleReboot.class.getName(), new ScheduleReboot());
+		services.put("AutoGC", new AutoGC());
+		services.put("ScheduleReboot", new ScheduleReboot());
 	}
 	
 	@Override
